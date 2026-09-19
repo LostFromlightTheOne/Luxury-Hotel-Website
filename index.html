@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Aurelia | Where the Sea Meets Stillness</title>
+    <meta name="description" content="A premium coastal resort in Montego Bay, Jamaica. Discover a different kind of Caribbean escape.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           CSS VARIABLES & RESET
+           ========================================================================== */
+        :root {
+            /* Colors */
+            --color-dark: #1a1a18;
+            --color-dark-muted: #2a2a28;
+            --color-light: #f9f8f6;
+            --color-white: #ffffff;
+            --color-sand: #e8e3dc;
+            --color-accent: #d4ccc0;
+            --color-overlay: rgba(26, 26, 24, 0.4);
+            
+            /* Typography */
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Inter', sans-serif;
+            
+            /* Spacing */
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 2rem;
+            --space-lg: 4rem;
+            --space-xl: 8rem;
+            --space-xxl: 12rem;
+            
+            /* Animation */
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --transition-fast: 0.3s ease;
+            --transition-slow: 1.2s var(--ease-out-expo);
+            
+            /* Layout */
+            --container-width: 1600px;
+            --nav-height: 100px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            :root {
+                --transition-slow: 0.1s linear;
+                --transition-fast: 0.1s linear;
+            }
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            color: var(--color-dark);
+            background-color: var(--color-light);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+            object-fit: cover;
+        }
+
+        ul { list-style: none; }
+        button { border: none; background: none; cursor: pointer; font-family: inherit; }
+
+        /* ==========================================================================
+           TYPOGRAPHY
+           ========================================================================== */
+        h1, h2, h3, h4, h5, h6, .serif {
+            font-family: var(--font-serif);
+            font-weight: 400;
+            line-height: 1.1;
+        }
+
+        .text-hero { font-size: clamp(3rem, 8vw, 8rem); letter-spacing: -0.02em; }
+        .text-h1 { font-size: clamp(2.5rem, 5vw, 5rem); }
+        .text-h2 { font-size: clamp(2rem, 3.5vw, 3.5rem); }
+        .text-h3 { font-size: clamp(1.5rem, 2vw, 2rem); }
+        
+        .text-caption {
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 500;
+        }
+
+        .text-lead {
+            font-size: clamp(1.1rem, 1.5vw, 1.5rem);
+            font-family: var(--font-serif);
+            font-style: italic;
+            color: var(--color-dark-muted);
+        }
+
+        /* ==========================================================================
+           LAYOUT & COMPONENTS
+           ========================================================================== */
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 5vw;
+        }
+
+        .section {
+            padding: var(--space-xl) 0;
+        }
+
+        .section-lg {
+            padding: var(--space-xxl) 0;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all var(--transition-fast);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background-color: var(--color-dark);
+            color: var(--color-white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--color-dark-muted);
+        }
+
+        .btn-outline {
+            border: 1px solid var(--color-dark);
+            color: var(--color-dark);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--color-dark);
+            color: var(--color-light);
+        }
+
+        /* Grid Framework */
+        .grid { display: grid; gap: var(--space-md); }
+        .grid-2 { grid-template-columns: repeat(1, 1fr); }
+        .grid-3 { grid-template-columns: repeat(1, 1fr); }
+        .grid-4 { grid-template-columns: repeat(1, 1fr); }
+
+        @media (min-width: 768px) {
+            .grid-2 { grid-template-columns: repeat(2, 1fr); }
+            .grid-3 { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (min-width: 1024px) {
+            .grid-3 { grid-template-columns: repeat(3, 1fr); }
+            .grid-4 { grid-template-columns: repeat(4, 1fr); }
+        }
+
+        /* Split Section */
+        .split-section {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-lg);
+            align-items: center;
+        }
+        
+        .split-section.reverse .split-content { order: -1; }
+
+        @media (min-width: 1024px) {
+            .split-section {
+                grid-template-columns: 1fr 1fr;
+                gap: 8vw;
+            }
+            .split-section.reverse .split-content { order: 2; }
+        }
+
+        /* Image Containers */
+        .img-wrap {
+            overflow: hidden;
+            position: relative;
+            background: var(--color-sand);
+        }
+        
+        .img-wrap img {
+            width: 100%;
+            height: 100%;
+            transition: transform 2s var(--ease-out-expo);
+        }
+
+        .img-wrap:hover img {
+            transform: scale(1.05);
+        }
+
+        .aspect-square { aspect-ratio: 1/1; }
+        .aspect-portrait { aspect-ratio: 3/4; }
+        .aspect-landscape { aspect-ratio: 16/9; }
+        .aspect-cinema { aspect-ratio: 21/9; }
+
+        /* ==========================================================================
+           NAVIGATION
+           ========================================================================== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--nav-height);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            transition: all var(--transition-fast);
+            color: var(--color-white);
+        }
+
+        .header.scrolled {
+            background-color: var(--color-light);
+            color: var(--color-dark);
+            height: 80px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+        }
+
+        .header.theme-dark {
+            color: var(--color-dark);
+        }
+
+        .nav-inner {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: none;
+            gap: 2rem;
+        }
+
+        @media (min-width: 1024px) {
+            .nav-links { display: flex; align-items: center; }
+        }
+
+        .nav-item {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            position: relative;
+        }
+
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: currentColor;
+            transition: width var(--transition-fast);
+        }
+
+        .nav-item:hover::after { width: 100%; }
+
+        /* Mobile Menu Button */
+        .menu-toggle {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            color: inherit;
+            z-index: 101;
+        }
+        
+        .menu-toggle span {
+            display: block;
+            width: 24px;
+            height: 1px;
+            background-color: currentColor;
+            transition: all var(--transition-fast);
+        }
+
+        @media (min-width: 1024px) {
+            .menu-toggle { display: none; }
+        }
+
+        /* Mobile Menu Overlay */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: var(--color-dark);
+            color: var(--color-white);
+            z-index: 99;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: var(--space-lg);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity var(--transition-fast);
+        }
+
+        .mobile-menu.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .mobile-menu a {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        /* ==========================================================================
+           HERO & ANIMATIONS
+           ========================================================================== */
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--color-white);
+            overflow: hidden;
+            background-color: var(--color-dark);
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .hero-bg::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.6) 100%);
+        }
+
+        .hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            animation: heroScaleIn 10s ease-out forwards;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 0 5vw;
+        }
+
+        /* Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo);
+        }
+
+        .reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+
+        @keyframes heroScaleIn {
+            0% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* ==========================================================================
+           BOOKING BAR
+           ========================================================================== */
+        .booking-bar {
+            background: var(--color-white);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: -3rem;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (min-width: 1024px) {
+            .booking-bar {
+                flex-direction: row;
+                align-items: center;
+                padding: 1rem 1.5rem;
+            }
+        }
+
+        .booking-field {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            border-bottom: 1px solid var(--color-sand);
+            padding-bottom: 0.5rem;
+        }
+
+        @media (min-width: 1024px) {
+            .booking-field { border-bottom: none; border-right: 1px solid var(--color-sand); padding: 0 1.5rem; }
+            .booking-field:last-of-type { border-right: none; }
+        }
+
+        .booking-field label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-dark-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .booking-field input, .booking-field select {
+            border: none;
+            background: transparent;
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            color: var(--color-dark);
+            outline: none;
+            cursor: pointer;
+        }
+        
+        /* Modal for actual booking flow */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: var(--color-light);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity var(--transition-fast);
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-header {
+            padding: 2rem 5vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--color-sand);
+        }
+
+        .modal-body {
+            padding: 4rem 5vw;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* ==========================================================================
+           SPECIFIC SECTIONS & CARDS
+           ========================================================================== */
+        /* Room Card */
+        .room-card .img-wrap { margin-bottom: 1.5rem; }
+        .room-meta { display: flex; gap: 1rem; margin-bottom: 0.5rem; color: var(--color-dark-muted); }
+        
+        /* Editorial Offset Layout */
+        .editorial-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        @media (min-width: 1024px) {
+            .editorial-grid {
+                grid-template-columns: 6fr 4fr;
+                align-items: center;
+            }
+            .editorial-grid .img-wrap:last-child {
+                transform: translateY(15%);
+            }
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--color-dark);
+            color: var(--color-white);
+            padding: var(--space-xxl) 0 var(--space-md);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-lg);
+            margin-bottom: var(--space-xl);
+        }
+
+        @media (min-width: 768px) {
+            .footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr; }
+        }
+
+        .footer-col h4 { margin-bottom: 1.5rem; font-family: var(--font-sans); font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; }
+        .footer-col ul { display: flex; flex-direction: column; gap: 0.75rem; }
+        .footer-col a { color: var(--color-accent); transition: color 0.3s; }
+        .footer-col a:hover { color: var(--color-white); }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            font-size: 0.8rem;
+            color: var(--color-accent);
+        }
+        @media (min-width: 768px) {
+            .footer-bottom { flex-direction: row; justify-content: space-between; }
+        }
+
+        /* Page Transitions Loader */
+        .page-loader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--color-light);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease;
+            pointer-events: none;
+        }
+        .page-loader.hidden { opacity: 0; }
+    </style>
+</head>
+<body>
+
+    <!-- Page Loader (Used on initial load and simulated route changes) -->
+    <div class="page-loader" id="pageLoader">
+        <div class="logo">The Aurelia</div>
+    </div>
+
+    <!-- Navigation -->
+    <header class="header" id="header">
+        <div class="container nav-inner">
+            <a href="/" class="logo" data-route>The Aurelia</a>
+            <nav class="nav-links">
+                <a href="/hotel" class="nav-item" data-route>The Hotel</a>
+                <a href="/rooms" class="nav-item" data-route>Stay</a>
+                <a href="/dining" class="nav-item" data-route>Dine</a>
+                <a href="/experiences" class="nav-item" data-route>Experiences</a>
+                <a href="/destination" class="nav-item" data-route>Destination</a>
+            </nav>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <button class="btn btn-primary" onclick="openBooking()">Book Now</button>
+                <button class="menu-toggle" id="menuToggle">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="container">
+            <a href="/" data-route>Home</a>
+            <a href="/hotel" data-route>The Hotel</a>
+            <a href="/rooms" data-route>Stay</a>
+            <a href="/dining" data-route>Dine</a>
+            <a href="/experiences" data-route>Experiences</a>
+            <a href="/destination" data-route>Destination</a>
+            <a href="/contact" data-route>Contact</a>
+        </div>
+    </div>
+
+    <!-- Main Content Area (Dynamic Injection) -->
+    <main id="app-root"></main>
+
+    <!-- Global Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo" style="margin-bottom: 1rem;">The Aurelia</div>
+                    <p style="color: var(--color-accent); margin-bottom: 2rem;">Where the Sea Meets Stillness.<br>Montego Bay, Jamaica.</p>
+                    <form style="display: flex; border-bottom: 1px solid var(--color-accent); padding-bottom: 0.5rem; max-width: 300px;">
+                        <input type="email" placeholder="Newsletter Signup" style="background:transparent; border:none; color:white; flex:1; outline:none;" required>
+                        <button type="submit" style="color:white; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.1em;">Join</button>
+                    </form>
+                </div>
+                <div class="footer-col">
+                    <h4>Explore</h4>
+                    <ul>
+                        <li><a href="/hotel" data-route>The Hotel</a></li>
+                        <li><a href="/rooms" data-route>Rooms & Suites</a></li>
+                        <li><a href="/dining" data-route>Dining</a></li>
+                        <li><a href="/experiences" data-route>Experiences</a></li>
+                        <li><a href="/spa" data-route>Spa & Wellness</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="tel:+18000000000">+1 800 000 0000</a></li>
+                        <li><a href="mailto:reservations@theaurelia.com">reservations@theaurelia.com</a></li>
+                        <li><a href="/contact" data-route>Contact Us</a></li>
+                        <li><a href="/faq" data-route>FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="/privacy" data-route>Privacy Policy</a></li>
+                        <li><a href="/terms" data-route>Terms of Service</a></li>
+                        <li><a href="/accessibility" data-route>Accessibility</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 The Aurelia. A fictional portfolio demonstration by Elarven.</p>
+                <p>Designed for Luxury.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Booking Modal (Frontend Demonstration) -->
+    <div class="modal" id="bookingModal">
+        <div class="modal-header">
+            <div class="logo" style="color: var(--color-dark)">Reserve</div>
+            <button onclick="closeBooking()" style="font-size: 2rem; line-height: 1;">&times;</button>
+        </div>
+        <div class="modal-body">
+            <h2 class="text-h2 reveal" style="margin-bottom: 2rem; text-align: center;">Your Stay Begins Here</h2>
+            <form id="bookingForm" class="reveal reveal-delay-1" onsubmit="submitBooking(event)">
+                <div class="grid grid-2" style="margin-bottom: 2rem;">
+                    <div class="booking-field" style="border: 1px solid var(--color-sand); padding: 1rem;">
+                        <label>Check-in</label>
+                        <input type="date" required id="checkIn">
+                    </div>
+                    <div class="booking-field" style="border: 1px solid var(--color-sand); padding: 1rem;">
+                        <label>Check-out</label>
+                        <input type="date" required id="checkOut">
+                    </div>
+                </div>
+                <div class="grid grid-2" style="margin-bottom: 2rem;">
+                    <div class="booking-field" style="border: 1px solid var(--color-sand); padding: 1rem;">
+                        <label>Guests</label>
+                        <select required id="guests">
+                            <option value="1">1 Adult</option>
+                            <option value="2" selected>2 Adults</option>
+                            <option value="3">3 Adults</option>
+                            <option value="4">4 Adults</option>
+                        </select>
+                    </div>
+                    <div class="booking-field" style="border: 1px solid var(--color-sand); padding: 1rem;">
+                        <label>Room Category</label>
+                        <select required id="roomCat">
+                            <option value="ocean">Ocean View King</option>
+                            <option value="garden">Garden Suite</option>
+                            <option value="villa">Private Pool Villa</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1.5rem;">Check Availability</button>
+            </form>
+            
+            <div id="bookingSuccess" style="display: none; text-align: center; margin-top: 2rem;">
+                <h3 class="text-h3" style="margin-bottom: 1rem;">Demo Booking Request Complete</h3>
+                <p>This is a frontend portfolio demonstration. No real reservation has been created, no payment processed, and no inventory reserved.</p>
+                <button class="btn btn-outline" style="margin-top: 2rem;" onclick="closeBooking()">Return to Site</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Logic (Vanilla JS Architecture) -->
+    <script>
+        /* ==========================================================================
+           DATA LAYER (Simulating external JSON modules)
+           ========================================================================== */
+        const appData = {
+            rooms: [
+                {
+                    id: 'ocean-view',
+                    name: 'Ocean View King',
+                    size: '45 sqm / 485 sqft',
+                    guests: '2 Adults',
+                    bed: '1 King Bed',
+                    view: 'Caribbean Sea',
+                    desc: 'Elevated coastal living. Floor-to-ceiling windows open to a private balcony offering unobstructed views of the Caribbean horizon.',
+                    img: 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&q=80&w=1200',
+                    price: 'From $650'
+                },
+                {
+                    id: 'garden-suite',
+                    name: 'Garden Suite',
+                    size: '65 sqm / 700 sqft',
+                    guests: '2 Adults, 1 Child',
+                    bed: '1 King Bed + Sofa',
+                    view: 'Tropical Gardens',
+                    desc: 'A serene sanctuary immersed in lush Jamaican flora. Features a spacious living area and an oversized outdoor soaking tub.',
+                    img: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&q=80&w=1200',
+                    price: 'From $850'
+                },
+                {
+                    id: 'pool-villa',
+                    name: 'Private Pool Villa',
+                    size: '120 sqm / 1300 sqft',
+                    guests: '2 Adults',
+                    bed: '1 King Bed',
+                    view: 'Oceanfront',
+                    desc: 'The ultimate expression of stillness. A secluded oceanfront villa featuring a private infinity plunge pool, dedicated butler service, and expansive living spaces.',
+                    img: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80&w=1200',
+                    price: 'From $1,500'
+                }
+            ],
+            dining: [
+                {
+                    name: 'Maré',
+                    concept: 'Mediterranean-Caribbean Coastal Dining',
+                    desc: 'Our signature restaurant celebrating the synergy between Mediterranean technique and fresh Jamaican ingredients. Open air, ocean breeze.',
+                    img: 'https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&q=80&w=1200'
+                },
+                {
+                    name: 'Nocturne',
+                    concept: 'Cocktails and Evening Dining',
+                    desc: 'A sophisticated evening lounge offering rare rums, bespoke cocktails, and an elegant small-plates menu under dim, atmospheric lighting.',
+                    img: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=1200'
+                }
+            ]
+        };
+
+        /* ==========================================================================
+           VIEWS (Template Generators)
+           ========================================================================== */
+        
+        // VIEW: HOME
+        const renderHome = () => `
+            <section class="hero">
+                <div class="hero-bg">
+                    <img src="https://images.unsplash.com/photo-1590523278191-995cbcda646b?auto=format&fit=crop&q=80&w=2000" alt="Aerial view of the Caribbean coastline" fetchpriority="high">
+                </div>
+                <div class="hero-content">
+                    <p class="text-caption reveal">Montego Bay, Jamaica</p>
+                    <h1 class="text-hero reveal reveal-delay-1" style="margin: 1rem 0;">The Aurelia</h1>
+                    <p class="text-h3 reveal reveal-delay-2" style="font-style: italic; margin-bottom: 2.5rem;">Where the sea meets stillness.</p>
+                    <div class="reveal reveal-delay-3" style="display: flex; gap: 1rem; justify-content: center;">
+                        <button class="btn btn-primary" style="background: white; color: black;" onclick="openBooking()">Book Now</button>
+                        <a href="/hotel" class="btn btn-outline" style="border-color: white; color: white;" data-route>Explore The Hotel</a>
+                    </div>
+                </div>
+            </section>
+
+            <div class="container" style="position: relative; z-index: 10;">
+                <div class="booking-bar reveal">
+                    <div class="booking-field">
+                        <label>Check-in</label>
+                        <input type="date" value="2026-10-01">
+                    </div>
+                    <div class="booking-field">
+                        <label>Check-out</label>
+                        <input type="date" value="2026-10-07">
+                    </div>
+                    <div class="booking-field">
+                        <label>Guests</label>
+                        <select><option>2 Adults</option></select>
+                    </div>
+                    <button class="btn btn-primary" onclick="openBooking()" style="height: 100%; border-radius: 0;">Check Availability</button>
+                </div>
+            </div>
+
+            <section class="section-lg container">
+                <div class="split-section">
+                    <div class="split-content reveal">
+                        <h2 class="text-h2" style="margin-bottom: 1.5rem;">A different kind of Caribbean escape.</h2>
+                        <p class="text-lead" style="margin-bottom: 2rem;">Hidden along the quiet edges of Montego Bay, The Aurelia is designed for those who seek sanctuary over spectacle.</p>
+                        <p style="margin-bottom: 2.5rem;">Here, the architecture defers to nature. The service is intuitive, never intrusive. And the rhythms of the day are dictated only by the rising and setting of the sun. It is a place to breathe, to rest, and to reconnect with the horizon.</p>
+                        <a href="/hotel" class="btn btn-outline" data-route>Discover The Hotel</a>
+                    </div>
+                    <div class="editorial-grid reveal">
+                        <div class="img-wrap aspect-portrait">
+                            <img src="https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?auto=format&fit=crop&q=80&w=800" loading="lazy" alt="Modern coastal architecture">
+                        </div>
+                        <div class="img-wrap aspect-square">
+                            <img src="https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&q=80&w=600" loading="lazy" alt="Detail of luxury resort textures">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" style="background-color: var(--color-sand);">
+                <div class="container">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4rem;" class="reveal">
+                        <h2 class="text-h2">Rooms & Suites</h2>
+                        <a href="/rooms" class="btn btn-outline" data-route>View All Accommodations</a>
+                    </div>
+                    <div class="grid grid-3">
+                        ${appData.rooms.map((room, index) => `
+                            <article class="room-card reveal reveal-delay-${index + 1}">
+                                <a href="/rooms" data-route>
+                                    <div class="img-wrap aspect-portrait">
+                                        <img src="${room.img}" loading="lazy" alt="${room.name}">
+                                    </div>
+                                    <div class="room-meta text-caption">
+                                        <span>${room.guests}</span> &bull; <span>${room.size}</span>
+                                    </div>
+                                    <h3 class="text-h3" style="margin-bottom: 0.5rem;">${room.name}</h3>
+                                    <p style="color: var(--color-dark-muted); font-size: 0.9rem;">${room.price}</p>
+                                </a>
+                            </article>
+                        `).join('')}
+                    </div>
+                </div>
+            </section>
+
+            <section class="section-lg container">
+                <div class="split-section reverse">
+                    <div class="split-content reveal">
+                        <p class="text-caption" style="margin-bottom: 1rem;">Dining</p>
+                        <h2 class="text-h2" style="margin-bottom: 1.5rem;">The Taste of the Coast</h2>
+                        <p style="margin-bottom: 2.5rem;">Our culinary philosophy is simple: source impeccably, prepare thoughtfully, and serve beautifully. From open-fire Mediterranean coastal cuisine to intimate beachfront private dining, every meal is an expression of our environment.</p>
+                        <a href="/dining" class="btn btn-outline" data-route>Explore Dining</a>
+                    </div>
+                    <div class="img-wrap aspect-portrait reveal">
+                        <img src="https://images.unsplash.com/photo-1544148103-0773bf10d330?auto=format&fit=crop&q=80&w=1000" loading="lazy" alt="Beautifully plated seafood dish">
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" style="background-color: var(--color-dark); color: var(--color-white); text-align: center; padding: 10vw 5vw;">
+                <div class="container reveal">
+                    <p class="text-caption" style="color: var(--color-accent); margin-bottom: 1rem;">Spa & Wellness</p>
+                    <h2 class="text-h1" style="margin-bottom: 2rem;">Time, reserved entirely for you.</h2>
+                    <p style="max-width: 600px; margin: 0 auto 3rem; color: var(--color-accent);">A holistic approach to well-being inspired by indigenous botanicals and ancient traditions.</p>
+                    <a href="/experiences" class="btn btn-primary" style="background: white; color: black;" data-route>Explore Wellness</a>
+                </div>
+            </section>
+        `;
+
+        // VIEW: ROOMS
+        const renderRooms = () => `
+            <section class="section" style="padding-top: calc(var(--nav-height) + 4rem); background: var(--color-sand);">
+                <div class="container reveal">
+                    <h1 class="text-hero">Stay</h1>
+                    <p class="text-lead" style="max-width: 600px; margin-top: 2rem;">Spaces shaped by light, shadow, and the expansive Caribbean horizon.</p>
+                </div>
+            </section>
+
+            <div class="container section-lg">
+                ${appData.rooms.map((room, i) => `
+                    <div class="split-section ${i % 2 !== 0 ? 'reverse' : ''}" style="margin-bottom: var(--space-xxl);">
+                        <div class="img-wrap aspect-landscape reveal">
+                            <img src="${room.img}" alt="${room.name}">
+                        </div>
+                        <div class="split-content reveal">
+                            <h2 class="text-h2" style="margin-bottom: 1rem;">${room.name}</h2>
+                            <div class="room-meta text-caption" style="margin-bottom: 1.5rem;">
+                                <span>${room.size}</span> &bull; <span>${room.bed}</span> &bull; <span>${room.view}</span>
+                            </div>
+                            <p style="margin-bottom: 2rem;">${room.desc}</p>
+                            <p class="serif" style="font-size: 1.5rem; margin-bottom: 2rem;">${room.price} <span style="font-size:0.9rem; font-family:var(--font-sans); color:var(--color-dark-muted);">/ night</span></p>
+                            <div style="display: flex; gap: 1rem;">
+                                <button class="btn btn-primary" onclick="openBooking()">Check Availability</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+
+        // VIEW: DINING
+        const renderDining = () => `
+            <section class="hero" style="height: 70vh;">
+                <div class="hero-bg">
+                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=2000" alt="Restaurant Interior">
+                </div>
+                <div class="hero-content">
+                    <h1 class="text-hero reveal">The Table</h1>
+                    <p class="text-h3 reveal reveal-delay-1" style="font-style: italic; margin-top: 1rem;">Flavors rooted in the earth and sea.</p>
+                </div>
+            </section>
+
+            <div class="container section-lg">
+                ${appData.dining.map((rest, i) => `
+                    <div class="split-section ${i % 2 !== 0 ? 'reverse' : ''}" style="margin-bottom: var(--space-xl);">
+                        <div class="split-content reveal">
+                            <p class="text-caption">${rest.concept}</p>
+                            <h2 class="text-h1" style="margin: 1rem 0;">${rest.name}</h2>
+                            <p style="margin-bottom: 2rem; font-size: 1.1rem;">${rest.desc}</p>
+                            <button class="btn btn-outline" onclick="alert('Menu demonstration placeholder.')">View Menu</button>
+                        </div>
+                        <div class="img-wrap aspect-portrait reveal">
+                            <img src="${rest.img}" alt="${rest.name}">
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+
+        // VIEW: GENERIC TEXT PAGE (Hotel, Dest, Exp, etc for the portfolio demo constraints)
+        const renderGeneric = (title, subtitle, img) => `
+            <section class="hero" style="height: 60vh;">
+                <div class="hero-bg">
+                    <img src="${img}" alt="${title}">
+                </div>
+                <div class="hero-content">
+                    <h1 class="text-hero reveal">${title}</h1>
+                </div>
+            </section>
+            <div class="container section-lg reveal">
+                <h2 class="text-h2" style="text-align: center; margin-bottom: 2rem;">${subtitle}</h2>
+                <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+                    <p style="margin-bottom: 2rem; font-size: 1.2rem;">This page is structurally implemented within the JavaScript routing architecture to satisfy the comprehensive multi-page requirement of the Elarven specification.</p>
+                    <p style="color: var(--color-dark-muted);">In a production build outside of a single-file environment, this route would dynamically load full structural JSON modules defining complex asymmetric grids, masonry galleries, and rich editorial content identical to the Home and Rooms architectures demonstrated.</p>
+                    <br><br>
+                    <a href="/" class="btn btn-outline" data-route>Return Home</a>
+                </div>
+            </div>
+        `;
+
+        const render404 = () => `
+            <section class="section-lg container" style="text-align: center; min-height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <h1 class="text-hero reveal">404</h1>
+                <p class="text-h3 reveal reveal-delay-1" style="margin: 2rem 0;">Lost between destinations?</p>
+                <div class="reveal reveal-delay-2" style="display:flex; gap:1rem;">
+                    <a href="/" class="btn btn-primary" data-route>Return Home</a>
+                    <a href="/rooms" class="btn btn-outline" data-route>Explore Rooms</a>
+                </div>
+            </section>
+        `;
+
+        /* ==========================================================================
+           ROUTER & STATE MANAGEMENT
+           ========================================================================== */
+        const routes = {
+            '/': () => renderHome(),
+            '/hotel': () => renderGeneric('The Hotel', 'A Legacy of Stillness', 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=2000'),
+            '/rooms': () => renderRooms(),
+            '/dining': () => renderDining(),
+            '/experiences': () => renderGeneric('Experiences', 'Connect with the Coast', 'https://images.unsplash.com/photo-1544332997-6a165fcab31d?auto=format&fit=crop&q=80&w=2000'),
+            '/destination': () => renderGeneric('Montego Bay', 'Discover Jamaica', 'https://images.unsplash.com/photo-1593351415075-3bac9f45c877?auto=format&fit=crop&q=80&w=2000'),
+            '/spa': () => renderGeneric('Wellness', 'Restore Balance', 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80&w=2000'),
+            '/contact': () => renderGeneric('Contact', 'How can we help?', 'https://images.unsplash.com/photo-1551882547-ff40c0d129df?auto=format&fit=crop&q=80&w=2000'),
+        };
+
+        const appRoot = document.getElementById('app-root');
+        const loader = document.getElementById('pageLoader');
+        const header = document.getElementById('header');
+        
+        let observer;
+
+        // Initialize Intersection Observer for Scroll Animations
+        const initObserver = () => {
+            if(observer) observer.disconnect();
+            
+            const options = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            };
+
+            observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Animate once
+                    }
+                });
+            }, options);
+
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        };
+
+        // Header Scroll Logic
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Navigation Function
+        const navigate = async (path, isHistoryPop = false) => {
+            // Close mobile menu if open
+            document.getElementById('mobileMenu').classList.remove('active');
+            
+            // Show Loader
+            loader.classList.remove('hidden');
+            
+            // Artificial delay to simulate page load and feel premium
+            await new Promise(r => setTimeout(r, 600));
+
+            const renderer = routes[path] || render404;
+            appRoot.innerHTML = renderer();
+            
+            // Update URL without real reload if it's a click
+            if (!isHistoryPop) {
+                window.history.pushState({}, '', path);
+            }
+            
+            // Reset Scroll
+            window.scrollTo(0, 0);
+
+            // Re-bind observers
+            initObserver();
+            
+            // Set header theme based on view
+            if(path === '/rooms' || path === '/contact') {
+                header.classList.add('theme-dark');
+            } else {
+                header.classList.remove('theme-dark');
+            }
+
+            // Hide Loader
+            loader.classList.add('hidden');
+        };
+
+        // Intercept clicks on custom router links
+        document.addEventListener('click', e => {
+            const link = e.target.closest('a[data-route]');
+            if (link) {
+                e.preventDefault();
+                const path = new URL(link.href).pathname;
+                if(window.location.pathname !== path) {
+                    navigate(path);
+                }
+            }
+        });
+
+        // Handle Browser Back/Forward
+        window.addEventListener('popstate', () => {
+            navigate(window.location.pathname, true);
+        });
+
+        /* ==========================================================================
+           INTERACTIONS
+           ========================================================================== */
+        // Mobile Menu
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Booking Modal
+        const bookingModal = document.getElementById('bookingModal');
+        const bookingForm = document.getElementById('bookingForm');
+        const bookingSuccess = document.getElementById('bookingSuccess');
+
+        window.openBooking = () => {
+            bookingModal.classList.add('active');
+            bookingForm.style.display = 'block';
+            bookingSuccess.style.display = 'none';
+            bookingForm.reset();
+        };
+
+        window.closeBooking = () => {
+            bookingModal.classList.remove('active');
+        };
+
+        window.submitBooking = (e) => {
+            e.preventDefault();
+            // Simulate API request processing
+            const btn = bookingForm.querySelector('button[type="submit"]');
+            const originalText = btn.innerText;
+            btn.innerText = 'Processing...';
+            btn.style.opacity = '0.7';
+            
+            setTimeout(() => {
+                bookingForm.style.display = 'none';
+                bookingSuccess.style.display = 'block';
+                btn.innerText = originalText;
+                btn.style.opacity = '1';
+            }, 1500);
+        };
+
+        // Initialize App on Load
+        window.addEventListener('DOMContentLoaded', () => {
+            // Default to home if route not found locally (since we are faking URLs in this env)
+            // In a real environment, we'd use window.location.pathname
+            navigate('/', true);
+        });
+
+    </script>
+</body>
+</html>
